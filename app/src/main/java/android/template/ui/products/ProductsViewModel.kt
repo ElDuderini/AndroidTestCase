@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,6 +44,18 @@ class ProductsViewModel
                 .map<List<Product>, ProductsUiState>(::Success)
                 .catch { emit(Error(it)) }
                 .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Loading)
+
+        init {
+            viewModelScope.launch {
+                productsRepository.loadProducts()
+            }
+        }
+
+        fun updateFavoriteProduct(product: Product) {
+            viewModelScope.launch {
+                productsRepository.updateFavorite(product = product)
+            }
+        }
     }
 
 sealed interface ProductsUiState {

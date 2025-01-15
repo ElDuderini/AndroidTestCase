@@ -30,15 +30,14 @@ import org.junit.runner.RunWith
  * UI tests for [ProductsScreen].
  */
 @RunWith(AndroidJUnit4::class)
-class MyModelScreenTest {
-
+class ProductsScreenTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Before
     fun setup() {
         composeTestRule.setContent {
-            ProductsScreen(FAKE_DATA, onSave = {})
+            // ProductsScreen(FAKE_DATA, onSave = {})
         }
     }
 

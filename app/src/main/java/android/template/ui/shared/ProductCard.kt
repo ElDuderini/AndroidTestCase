@@ -4,6 +4,7 @@ import android.template.R
 import android.template.data.di.mockProducts
 import android.template.data.local.database.Product
 import android.template.ui.theme.MyApplicationTheme
+import android.template.ui.theme.PurpleGrey40
 import android.template.ui.theme.StarColor
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Column
@@ -15,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedCard
@@ -56,18 +56,18 @@ fun ProductCard(
         )
         Row(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
             Column {
-                Text("${product.title}")
+                Text(product.title)
                 Text("${product.price} ${product.currency}")
             }
             Spacer(modifier = Modifier.weight(1f))
             IconButton(onClick = onFavoriteClick) {
-                val icon =
-                    if (product.favorite) {
-                        Icons.Filled.Star
+                val color =
+                    if (product.favorite == true) {
+                        StarColor
                     } else {
-                        Icons.Outlined.Star
+                        PurpleGrey40
                     }
-                Icon(icon, modifier = Modifier.size(40.dp), contentDescription = "Toggle favorite, current set to ${product.favorite}", tint = StarColor)
+                Icon(Icons.Filled.Star, modifier = Modifier.size(40.dp), contentDescription = "Toggle favorite, current set to ${product.favorite}", tint = color)
             }
         }
     }

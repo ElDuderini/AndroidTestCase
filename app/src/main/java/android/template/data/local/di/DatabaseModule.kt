@@ -43,5 +43,6 @@ class DatabaseModule {
                 appContext,
                 AppDatabase::class.java,
                 "Products",
-            ).build()
+            ).fallbackToDestructiveMigration()
+            .build()
 }

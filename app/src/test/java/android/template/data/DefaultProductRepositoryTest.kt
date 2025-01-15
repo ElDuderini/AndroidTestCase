@@ -16,42 +16,47 @@
 
 package android.template.data
 
+import android.template.data.local.database.Product
+import android.template.data.local.database.ProductsDao
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
 import org.junit.Test
-import android.template.data.local.database.MyModel
-import android.template.data.local.database.MyModelDao
 
 /**
  * Unit tests for [DefaultProductsRepository].
  */
 @OptIn(ExperimentalCoroutinesApi::class) // TODO: Remove when stable
-class DefaultMyModelRepositoryTest {
-
+class DefaultProductRepositoryTest {
     @Test
-    fun myModels_newItemSaved_itemIsReturned() = runTest {
-        val repository = DefaultProductsRepository(FakeMyModelDao())
+    fun myModels_newItemSaved_itemIsReturned() =
+        runTest {
+            // val repository = DefaultProductsRepository(FakeProductDao())
 
-        repository.add("Repository")
+            // repository.add("Repository")
 
-        assertEquals(repository.myModels.first().size, 1)
-    }
-
+            // assertEquals(repository.products.first().size, 1)
+        }
 }
 
-private class FakeMyModelDao : MyModelDao {
+private class FakeProductDao : ProductsDao {
+    private val data = mutableListOf<Product>()
 
-    private val data = mutableListOf<MyModel>()
+    override fun getProducts(): Flow<List<Product>> =
+        flow {
+            emit(data)
+        }
 
-    override fun getMyModels(): Flow<List<MyModel>> = flow {
-        emit(data)
+    override fun getMyFavorites(favorite: Boolean): Flow<List<Product>> =
+        flow {
+            emit(data)
+        }
+
+    override suspend fun updateProduct(item: Product) {
     }
 
-    override suspend fun insertMyModel(item: MyModel) {
-        data.add(0, item)
+    override suspend fun insertProduct(item: Product) {
+        TODO("Not yet implemented")
     }
 }

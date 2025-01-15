@@ -22,6 +22,7 @@ plugins {
     alias(libs.plugins.hilt.gradle)
     alias(libs.plugins.ksp)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.serialization)
 }
 
 android {
@@ -115,6 +116,8 @@ dependencies {
     // Ktor
     implementation(libs.ktor)
     implementation(libs.ktor.serialization)
+    implementation(libs.ktor.cio)
+    implementation(libs.ktor.content.negotiation)
 
     // Coil
     implementation(libs.coil)

@@ -16,6 +16,8 @@
 
 package android.template.ui
 
+import android.template.ui.favorites.FavoritesScreen
+import android.template.ui.products.ProductsScreen
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,14 +25,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import android.template.ui.products.ProductsScreen
 
 @Composable
 fun MainNavigation() {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "main") {
-        composable("main") { ProductsScreen(modifier = Modifier.padding(16.dp)) }
-        composable("favorites") {}
+        composable("main") { ProductsScreen(modifier = Modifier.padding(16.dp), navController = navController) }
+        composable("favorites") { FavoritesScreen(modifier = Modifier.padding(16.dp), navController = navController) }
     }
 }

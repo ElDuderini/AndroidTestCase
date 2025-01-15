@@ -17,6 +17,7 @@ kotlin = "2.1.0"
 ksp = "2.1.0-1.0.29"
 ktor = "3.0.3"
 coil = "2.5.0"
+serialization = "2.1.0"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
@@ -48,6 +49,8 @@ junit = { module = "junit:junit", version.ref = "junit" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 ktor = {module = "io.ktor:ktor-client-core", version.ref = "ktor"}
 ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor"}
+ktor-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor"}
+ktor-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor"}
 coil = {module = "io.coil-kt:coil-compose", version.ref = "coil"}
 
 [plugins]
@@ -58,3 +61,4 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
 hilt-gradle = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+serialization = {id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serialization"}

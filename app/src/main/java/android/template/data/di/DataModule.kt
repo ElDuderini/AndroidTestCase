@@ -40,8 +40,13 @@ class MockProductsRepository
     @Inject
     constructor() : ProductsRepository {
         override val products: Flow<List<Product>> = flowOf(mockProducts)
+        override val favoriteProducts: Flow<List<Product>> = flowOf(mockProducts)
 
-        override suspend fun add(product: Product) {
+        override suspend fun loadProducts() {
+            TODO("Not yet implemented")
+        }
+
+        override suspend fun updateFavorite(product: Product) {
             TODO("Not yet implemented")
         }
     }

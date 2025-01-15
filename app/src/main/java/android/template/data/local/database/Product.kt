@@ -19,21 +19,26 @@ package android.template.data.local.database
 import androidx.room.Dao
 import androidx.room.Entity
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
 import androidx.room.Query
-import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@Serializable
+data class ProductsResponse(
+    @SerialName("products") var products: ArrayList<Product> = arrayListOf(),
+)
+
 @Serializable @Entity
 data class Product(
     @PrimaryKey
-    @SerialName("id") var id: Int? = null,
-    @SerialName("title") var title: String? = null,
-    @SerialName("price") var price: Int? = null,
-    @SerialName("currency") var currency: String? = null,
-    @SerialName("image") var image: String? = null,
+    @SerialName("id") var id: Int,
+    @SerialName("title") var title: String,
+    @SerialName("price") var price: Int,
+    @SerialName("currency") var currency: String,
+    @SerialName("image") var image: String,
     val favorite: Boolean = false,
 )
 
@@ -46,10 +51,13 @@ interface ProductsDao {
     @Query("SELECT * FROM product WHERE favorite = :favorite ORDER BY title")
     fun getMyFavorites(favorite: Boolean = true): Flow<List<Product>>
 
-    @Update
-    suspend fun updateFavorite(item: Product)
+    // Update favorite status on a specific product
+    @Query("UPDATE product SET favorite=:favorite WHERE id = :id")
+    suspend fun updateFavorite(
+        id: Int,
+        favorite: Boolean,
+    )
 
-    // Add new entries not found in DB
-    @Insert
-    suspend fun insertProduct(item: Product)
+    @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
+    suspend fun insertProducts(items: List<Product>)
 }
