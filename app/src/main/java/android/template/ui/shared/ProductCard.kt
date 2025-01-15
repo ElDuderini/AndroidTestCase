@@ -26,6 +26,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -38,7 +39,13 @@ fun ProductCard(
 ) {
     val context = LocalContext.current
 
-    OutlinedCard(modifier = Modifier.padding(horizontal = 24.dp)) {
+    OutlinedCard(
+        modifier =
+            Modifier
+                .padding(horizontal = 24.dp)
+                .semantics(mergeDescendants = true) {
+                },
+    ) {
         AsyncImage(
             model =
                 ImageRequest
@@ -71,7 +78,7 @@ fun ProductCard(
                 Icon(
                     Icons.Filled.Star,
                     modifier = Modifier.size(40.dp),
-                    contentDescription = "Toggle favorite, current set to ${product.favorite}",
+                    contentDescription = "Toggle favorite for ${product.title}, currently set to ${product.favorite}",
                     tint = color,
                 )
             }
