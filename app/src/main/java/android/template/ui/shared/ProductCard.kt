@@ -48,10 +48,11 @@ fun ProductCard(
                     .build(),
             contentDescription = "Cover art of: ${product.title}",
             placeholder = debugPlaceholder(R.drawable.ic_launcher_background),
-            contentScale = ContentScale.Crop,
+            error = painterResource(R.drawable.question_mark),
+            contentScale = ContentScale.Fit,
             modifier =
                 Modifier
-                    .aspectRatio(16 / 9f)
+                    .aspectRatio(4 / 3f)
                     .fillMaxWidth(),
         )
         Row(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
@@ -67,7 +68,12 @@ fun ProductCard(
                     } else {
                         PurpleGrey40
                     }
-                Icon(Icons.Filled.Star, modifier = Modifier.size(40.dp), contentDescription = "Toggle favorite, current set to ${product.favorite}", tint = color)
+                Icon(
+                    Icons.Filled.Star,
+                    modifier = Modifier.size(40.dp),
+                    contentDescription = "Toggle favorite, current set to ${product.favorite}",
+                    tint = color,
+                )
             }
         }
     }
