@@ -18,6 +18,13 @@ package android.template.ui
 
 import android.template.ui.favorites.FavoritesScreen
 import android.template.ui.products.ProductsScreen
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -31,7 +38,32 @@ fun MainNavigation() {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "main") {
-        composable("main") { ProductsScreen(modifier = Modifier.padding(16.dp), navController = navController) }
-        composable("favorites") { FavoritesScreen(modifier = Modifier.padding(16.dp), navController = navController) }
+        composable(
+            "main",
+            enterTransition = { slideIntoContainer() },
+            exitTransition = { slideOutOfContainer() },
+        ) {
+            ProductsScreen(modifier = Modifier.padding(16.dp), navController = navController)
+        }
+
+        composable(
+            "favorites",
+            enterTransition = { slideIntoContainer() },
+            exitTransition = { slideOutOfContainer() },
+        ) {
+            FavoritesScreen(modifier = Modifier.padding(16.dp), navController = navController)
+        }
     }
 }
+
+fun slideIntoContainer(): EnterTransition =
+    slideInVertically(
+        animationSpec = tween(500, delayMillis = 90),
+        initialOffsetY = { -it / 2 },
+    ) + fadeIn(animationSpec = tween(220, delayMillis = 90))
+
+fun slideOutOfContainer(): ExitTransition =
+    slideOutVertically(
+        animationSpec = tween(durationMillis = 500, delayMillis = 90),
+        targetOffsetY = { -it / 2 },
+    ) + fadeOut(tween(delayMillis = 90))

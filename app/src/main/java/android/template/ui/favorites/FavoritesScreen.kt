@@ -5,12 +5,17 @@ import android.template.ui.shared.ErrorScreen
 import android.template.ui.shared.LoadingScreen
 import android.template.ui.shared.ProductCard
 import android.template.ui.theme.MyApplicationTheme
+import android.template.ui.theme.Typography
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -21,7 +26,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -54,27 +58,38 @@ internal fun FavoritesScreen(
     viewModel: FavoritesViewModel,
     navController: NavController,
 ) {
-    Dialog(onDismissRequest = { navController.popBackStack() }) {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    colors =
-                        topAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-                            titleContentColor = MaterialTheme.colorScheme.primary,
-                        ),
-                    title = {
-                        Text("Favorites")
-                    },
-                )
-            },
-        ) { padding ->
-            LazyColumn(modifier.padding(padding)) {
-                items(products) { product ->
-                    Spacer(Modifier.height(24.dp))
-                    ProductCard(product) {
-                        viewModel.updateFavoriteProduct(product)
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                colors =
+                    topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        titleContentColor = MaterialTheme.colorScheme.primary,
+                    ),
+                title = {
+                    Text("Favorites")
+                },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            Icons.AutoMirrored.Default.ArrowBack,
+                            contentDescription = "Return back to the products page",
+                        )
                     }
+                },
+            )
+        },
+    ) { padding ->
+        LazyColumn(modifier.padding(padding)) {
+            if (products.isEmpty()) {
+                item {
+                    Text("No favorites have been saved yet.", style = Typography.titleMedium)
+                }
+            }
+            items(products) { product ->
+                Spacer(Modifier.height(24.dp))
+                ProductCard(product) {
+                    viewModel.updateFavoriteProduct(product)
                 }
             }
         }
