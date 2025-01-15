@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package android.template.ui.mymodel
+package android.template.ui.products
 
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import android.template.data.MyModelRepository
+import android.template.data.ProductsRepository
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -35,18 +35,18 @@ import android.template.data.MyModelRepository
 class MyModelViewModelTest {
     @Test
     fun uiState_initiallyLoading() = runTest {
-        val viewModel = MyModelViewModel(FakeMyModelRepository())
-        assertEquals(viewModel.uiState.first(), MyModelUiState.Loading)
+        val viewModel = ProductsViewModel(FakeMyModelRepository())
+        assertEquals(viewModel.uiState.first(), ProductsUiState.Loading)
     }
 
     @Test
     fun uiState_onItemSaved_isDisplayed() = runTest {
-        val viewModel = MyModelViewModel(FakeMyModelRepository())
-        assertEquals(viewModel.uiState.first(), MyModelUiState.Loading)
+        val viewModel = ProductsViewModel(FakeMyModelRepository())
+        assertEquals(viewModel.uiState.first(), ProductsUiState.Loading)
     }
 }
 
-private class FakeMyModelRepository : MyModelRepository {
+private class FakeMyModelRepository : ProductsRepository {
 
     private val data = mutableListOf<String>()
 

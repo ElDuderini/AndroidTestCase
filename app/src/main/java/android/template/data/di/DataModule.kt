@@ -16,34 +16,52 @@
 
 package android.template.data.di
 
+import android.template.data.DefaultProductsRepository
+import android.template.data.ProductsRepository
+import android.template.data.local.database.Product
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import android.template.data.MyModelRepository
-import android.template.data.DefaultMyModelRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 interface DataModule {
-
     @Singleton
     @Binds
-    fun bindsMyModelRepository(
-        myModelRepository: DefaultMyModelRepository
-    ): MyModelRepository
+    fun bindsProductsRepository(productsRepository: DefaultProductsRepository): ProductsRepository
 }
 
-class FakeMyModelRepository @Inject constructor() : MyModelRepository {
-    override val myModels: Flow<List<String>> = flowOf(fakeMyModels)
+class MockProductsRepository
+    @Inject
+    constructor() : ProductsRepository {
+        override val products: Flow<List<Product>> = flowOf(mockProducts)
 
-    override suspend fun add(name: String) {
-        throw NotImplementedError()
+        override suspend fun add(product: Product) {
+            TODO("Not yet implemented")
+        }
     }
-}
 
-val fakeMyModels = listOf("One", "Two", "Three")
+val mockProducts =
+    listOf(
+        Product(
+            id = 1001,
+            title = "Back to the Future",
+            price = 68,
+            currency = "SEK",
+            image = "https://upload.wikimedia.org/wikipedia/en/a/af/BackToTheFutureNESBoxart.jpg",
+            favorite = false,
+        ),
+        Product(
+            id = 1002,
+            title = "Balloon Fight",
+            price = 19,
+            currency = "SEK",
+            image = "https://upload.wikimedia.org/wikipedia/en/a/a8/BalloonFightnesboxart.jpg",
+            favorite = true,
+        ),
+    )

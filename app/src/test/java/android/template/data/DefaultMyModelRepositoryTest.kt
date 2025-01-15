@@ -27,14 +27,14 @@ import android.template.data.local.database.MyModel
 import android.template.data.local.database.MyModelDao
 
 /**
- * Unit tests for [DefaultMyModelRepository].
+ * Unit tests for [DefaultProductsRepository].
  */
 @OptIn(ExperimentalCoroutinesApi::class) // TODO: Remove when stable
 class DefaultMyModelRepositoryTest {
 
     @Test
     fun myModels_newItemSaved_itemIsReturned() = runTest {
-        val repository = DefaultMyModelRepository(FakeMyModelDao())
+        val repository = DefaultProductsRepository(FakeMyModelDao())
 
         repository.add("Repository")
 

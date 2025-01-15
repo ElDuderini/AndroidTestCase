@@ -14,8 +14,13 @@
  * limitations under the License.
  */
 
-package android.template.ui.mymodel
+package android.template.ui.products
 
+import android.template.data.ProductsRepository
+import android.template.data.local.database.Product
+import android.template.ui.products.ProductsUiState.Error
+import android.template.ui.products.ProductsUiState.Loading
+import android.template.ui.products.ProductsUiState.Success
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,32 +29,30 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
-import android.template.data.MyModelRepository
-import android.template.ui.mymodel.MyModelUiState.Error
-import android.template.ui.mymodel.MyModelUiState.Loading
-import android.template.ui.mymodel.MyModelUiState.Success
 import javax.inject.Inject
 
 @HiltViewModel
-class MyModelViewModel @Inject constructor(
-    private val myModelRepository: MyModelRepository
-) : ViewModel() {
-
-    val uiState: StateFlow<MyModelUiState> = myModelRepository
-        .myModels.map<List<String>, MyModelUiState>(::Success)
-        .catch { emit(Error(it)) }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Loading)
-
-    fun addMyModel(name: String) {
-        viewModelScope.launch {
-            myModelRepository.add(name)
-        }
+class ProductsViewModel
+    @Inject
+    constructor(
+        private val productsRepository: ProductsRepository,
+    ) : ViewModel() {
+        val uiState: StateFlow<ProductsUiState> =
+            productsRepository
+                .products
+                .map<List<Product>, ProductsUiState>(::Success)
+                .catch { emit(Error(it)) }
+                .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Loading)
     }
-}
 
-sealed interface MyModelUiState {
-    object Loading : MyModelUiState
-    data class Error(val throwable: Throwable) : MyModelUiState
-    data class Success(val data: List<String>) : MyModelUiState
+sealed interface ProductsUiState {
+    object Loading : ProductsUiState
+
+    data class Error(
+        val throwable: Throwable,
+    ) : ProductsUiState
+
+    data class Success(
+        val data: List<Product>,
+    ) : ProductsUiState
 }

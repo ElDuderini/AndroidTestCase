@@ -20,7 +20,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import android.template.data.MyModelRepository
+import android.template.data.ProductsRepository
 import android.template.data.di.DataModule
 import android.template.data.di.FakeMyModelRepository
 
@@ -34,5 +34,5 @@ interface FakeDataModule {
     @Binds
     abstract fun bindRepository(
         fakeRepository: FakeMyModelRepository
-    ): MyModelRepository
+    ): ProductsRepository
 }
