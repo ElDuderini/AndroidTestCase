@@ -89,7 +89,8 @@ class DefaultProductsRepository
                                     price = it.price,
                                     currency = it.currency,
                                     image = it.image,
-                                    favorite = false,
+                                    // Try to fetch the previously saved state of favorites
+                                    favorite = productsDao.getFavoriteState(it.id),
                                 )
                             }
                     }

@@ -60,4 +60,7 @@ interface ProductsDao {
 
     @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
     suspend fun insertProducts(items: List<Product>)
+
+    @Query("SELECT favorite FROM product WHERE id = :id")
+    suspend fun getFavoriteState(id: Int): Boolean
 }
